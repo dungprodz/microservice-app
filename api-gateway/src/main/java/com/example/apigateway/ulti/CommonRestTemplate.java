@@ -2,7 +2,6 @@ package com.example.apigateway.ulti;
 
 import com.google.gson.Gson;
 import lombok.SneakyThrows;
-import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -88,7 +87,7 @@ public class CommonRestTemplate {
                 .build();
         HttpComponentsClientHttpRequestFactory requestFactory =
                 new HttpComponentsClientHttpRequestFactory();
-        requestFactory.setHttpClient((HttpClient) httpClient);
+        requestFactory.setHttpClient(httpClient);
         return requestFactory;
 
     }
