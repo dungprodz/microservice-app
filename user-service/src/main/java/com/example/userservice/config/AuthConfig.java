@@ -1,8 +1,6 @@
 package com.example.userservice.config;
 
 import com.example.userservice.auth.UserAuthFilter;
-import com.example.userservice.repository.UserRepository;
-import com.example.userservice.service.imp.CustomUserDetailsImp;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.Resource;
@@ -21,8 +20,6 @@ import javax.annotation.Resource;
 @Configuration
 @EnableWebSecurity
 public class AuthConfig extends WebSecurityConfigurerAdapter {
-    private final UserRepository userRepository;
-
     @Resource
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
@@ -32,18 +29,12 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private UserAuthFilter jwtRequestFilter;
 
-    public AuthConfig(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService(){
-        return new CustomUserDetailsImp(userRepository);
-    }
+    @Resource
+    private AppConfig appConfig;
 
     @Resource
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(jwtUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(jwtUserDetailsService).passwordEncoder(appConfig.passwordEncoder());
     }
 
     @Override

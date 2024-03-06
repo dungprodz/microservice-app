@@ -1,6 +1,7 @@
 package com.example.apigateway.filter;
 
-import com.example.apigateway.ulti.CommonRestTemplate;
+import com.example.apigateway.model.ValidateTokenRequest;
+import com.example.apigateway.service.TokenService;
 import com.example.apigateway.ulti.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -13,13 +14,14 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
     private final RouteValidator validator;
     private final JwtUtil jwtUtil;
-    private final CommonRestTemplate commonRestTemplate;
+
+    private final TokenService tokenService;
     @Autowired
-    public AuthenticationFilter(RouteValidator validator, JwtUtil jwtUtil, CommonRestTemplate commonRestTemplate) {
+    public AuthenticationFilter(RouteValidator validator, JwtUtil jwtUtil, TokenService tokenService) {
         super(Config.class);
         this.validator = validator;
         this.jwtUtil = jwtUtil;
-        this.commonRestTemplate = commonRestTemplate;
+        this.tokenService = tokenService;
     }
 
     @Override
@@ -36,9 +38,9 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     authHeader = authHeader.substring(7);
                 }
                 try {
-//                    //REST call to AUTH service
-//                    commonRestTemplate.exchangeCommon("http://IDENTITY-SERVICE//validate?token" + authHeader, String.class);
-                    jwtUtil.validateToken(authHeader);
+                    ValidateTokenRequest request = new ValidateTokenRequest();
+                    request.setToken(authHeader);
+                    tokenService.validateToken(request);
 
                 } catch (Exception e) {
                     throw new RuntimeException("un authorized access to application");

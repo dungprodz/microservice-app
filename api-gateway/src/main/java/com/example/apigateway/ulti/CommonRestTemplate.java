@@ -1,5 +1,6 @@
 package com.example.apigateway.ulti;
 
+import com.example.apigateway.config.RestClientConfiguration;
 import com.google.gson.Gson;
 import lombok.SneakyThrows;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
@@ -9,7 +10,6 @@ import org.apache.http.ssl.TrustStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -21,28 +21,24 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.net.ssl.SSLContext;
 import java.security.cert.X509Certificate;
-import java.time.Duration;
 import java.util.Collections;
 import java.util.Objects;
 
 @Component
 public class CommonRestTemplate {
 
-    private final RestTemplate restTemplate;
+    private final RestClientConfiguration restClientConfiguration;
     private static final Logger LOGGER = LoggerFactory.getLogger(CommonRestTemplate.class);
-
     @Autowired
-    public CommonRestTemplate(RestTemplateBuilder templateBuilder) {
-        this.restTemplate = templateBuilder
-                .setConnectTimeout(Duration.ofMillis(15000))
-                .setReadTimeout(Duration.ofMillis(15000))
-                .build();
+    public CommonRestTemplate(RestClientConfiguration restClientConfiguration) {
+        this.restClientConfiguration = restClientConfiguration;
     }
+
 
     public <T> String exchangeCommon(String url, HttpMethod httpMethod, T requestBody,HttpHeaders headers) {
         try {
             LOGGER.warn("=== Start CommonRestTemplate exchangeCommon ===");
-
+            RestTemplate restTemplate = restClientConfiguration.getRestTemplate();
             restTemplate.setRequestFactory(disableSSL());
             if(Objects.nonNull(requestBody) && HttpMethod.GET.name().equalsIgnoreCase(httpMethod.name())){
                 //tuong hop http get co body

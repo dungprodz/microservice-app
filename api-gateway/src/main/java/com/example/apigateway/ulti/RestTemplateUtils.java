@@ -1,8 +1,8 @@
 package com.example.apigateway.ulti;
 
 
-import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -21,7 +21,7 @@ public final class RestTemplateUtils {
 
     public static final class CustomHttpComponentsClientHttpRequestFactory extends HttpComponentsClientHttpRequestFactory {
         @Override
-        protected ClassicHttpRequest createHttpUriRequest(HttpMethod httpMethod, URI uri) {
+        protected HttpUriRequest createHttpUriRequest(HttpMethod httpMethod, URI uri) {
             return super.createHttpUriRequest(httpMethod, uri);
         }
     }

@@ -1,6 +1,7 @@
 package com.example.userservice.util;
 
 public interface ErrorCode {
+    String SUCCESS = "KMA_200";
     String INTERNAL_SERVER_ERROR = "KMA_500";
     String BAD_REQUEST="KMA_400";
     String DATA_NOT_FOUND ="KMA_404";
