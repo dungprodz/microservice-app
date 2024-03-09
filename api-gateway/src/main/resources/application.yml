@@ -11,7 +11,14 @@ spring:
           uri: http://localhost:9002
           predicates:
             - Path=/api/v1/user/**
-
+          filters:
+            - AuthenticationFilter
+        - id: ProductService
+          uri: http://localhost:9003
+          predicates:
+            - Path=/api/v1/product/**
+          filters:
+            - AuthenticationFilter
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
       globalcors:
