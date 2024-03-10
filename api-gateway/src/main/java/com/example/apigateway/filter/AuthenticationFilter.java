@@ -2,7 +2,6 @@ package com.example.apigateway.filter;
 
 import com.example.apigateway.model.ValidateTokenRequest;
 import com.example.apigateway.service.TokenService;
-import com.example.apigateway.ulti.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -13,14 +12,11 @@ import org.springframework.stereotype.Component;
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
 
     private final RouteValidator validator;
-    private final JwtUtil jwtUtil;
-
     private final TokenService tokenService;
     @Autowired
-    public AuthenticationFilter(RouteValidator validator, JwtUtil jwtUtil, TokenService tokenService) {
+    public AuthenticationFilter(RouteValidator validator, TokenService tokenService) {
         super(Config.class);
         this.validator = validator;
-        this.jwtUtil = jwtUtil;
         this.tokenService = tokenService;
     }
 

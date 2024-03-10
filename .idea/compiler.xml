@@ -22,8 +22,8 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="api-gateway" options="" />
-      <module name="discovery-server" options="" />
+      <module name="api-gateway" options="-parameters" />
+      <module name="discovery-server" options="-parameters" />
       <module name="product-service" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>

@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/api/v1/register")
+@RequestMapping("/api/v1/user")
 public class RegisterController {
     private final RegisterService registerService;
     @Autowired
     public RegisterController(RegisterService registerService) {
         this.registerService = registerService;
     }
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<RegisterResponseBody> register(@RequestBody RegisterRequestBody requestBody) throws Exception {
         return registerService.register(requestBody);
     }
