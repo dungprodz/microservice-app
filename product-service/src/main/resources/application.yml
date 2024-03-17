@@ -13,7 +13,7 @@ spring:
       format_sql: true
 
   application:
-    name: UserService
+    name: ProductService
 eureka:
   client:
     service-url:
