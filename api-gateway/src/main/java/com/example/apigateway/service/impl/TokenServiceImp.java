@@ -4,6 +4,7 @@ import com.example.apigateway.model.ValidateTokenRequest;
 import com.example.apigateway.model.ValidateTokenResponse;
 import com.example.apigateway.service.TokenService;
 import com.example.apigateway.ulti.CommonRestTemplate;
+import com.example.apigateway.ulti.ErrorCode;
 import com.google.gson.Gson;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -27,6 +28,9 @@ public class TokenServiceImp implements TokenService {
         String url = "http://localhost:9002/listener/v1/token/validate";
         String exchange = commonRestTemplate.exchangeCommon(url, HttpMethod.POST,validateTokenRequest,headers);
         ValidateTokenResponse response = gson.fromJson(exchange, ValidateTokenResponse.class);
+        if (response.getResponseCode().equals(ErrorCode.BAD_REQUEST)) {
+            throw new RuntimeException("un authorized access to application");
+        }
         return response;
     }
 }

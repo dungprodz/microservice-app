@@ -1,21 +1,34 @@
 package com.example.productservice.entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "product")
+@Table(name = "product", schema = "product", catalog = "")
 public class ProductEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "ID")
     private String id;
     @Basic
-    @Column(name = "Name")
-    private String name;
+    @Column(name = "PRODUCT_NAME")
+    private String productName;
     @Basic
     @Column(name = "PRICE")
-    private String price;
+    private BigDecimal price;
+    @Basic
+    @Column(name = "PRODUCT_CODE")
+    private String productCode;
+    @Basic
+    @Column(name = "CATEGORY_ID")
+    private String categoryId;
+    @Basic
+    @Column(name = "CREATED_DATE")
+    private Timestamp createdDate;
+    @Basic
+    @Column(name = "UPDATE_DATE")
+    private Timestamp updateDate;
 
     public String getId() {
         return id;
@@ -25,20 +38,52 @@ public class ProductEntity {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public String getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public Timestamp getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Timestamp createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Timestamp getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Timestamp updateDate) {
+        this.updateDate = updateDate;
     }
 
     @Override
@@ -46,11 +91,11 @@ public class ProductEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductEntity that = (ProductEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(price, that.price);
+        return Objects.equals(id, that.id) && Objects.equals(productName, that.productName) && Objects.equals(price, that.price) && Objects.equals(productCode, that.productCode) && Objects.equals(categoryId, that.categoryId) && Objects.equals(createdDate, that.createdDate) && Objects.equals(updateDate, that.updateDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, price);
+        return Objects.hash(id, productName, price, productCode, categoryId, createdDate, updateDate);
     }
 }

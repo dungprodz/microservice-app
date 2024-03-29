@@ -29,12 +29,12 @@ public class TokenServiceImp implements TokenService {
     }
 
     @Override
-    public ValidateTokenResponse validateToken(ValidateTokenRequest validateTokenRequest) throws KMAException {
+    public ValidateTokenResponse validateToken(ValidateTokenRequest validateTokenRequest) {
         try {
             ValidateTokenResponse response = new ValidateTokenResponse();
             String userName = jwtTokenUtil.getUsernameFromToken(validateTokenRequest.getToken());
             UserEntity user = userRepository.findByUserName(userName);
-            if (Objects.isNull(user)) {
+            if (Objects.isNull(user) && jwtTokenUtil.isTokenExpired(validateTokenRequest.getToken())) {
                 response.setResponseCode(ErrorCode.BAD_REQUEST);
                 response.setResponseMessage(Common.FAIL);
                 LOGGER.info("Token validate with response {}", response);
