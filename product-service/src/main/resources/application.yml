@@ -14,6 +14,17 @@ spring:
 
   application:
     name: ProductService
+  kafka:
+    bootstrap-server: localhost:9092
+    auto-commit-interval: 100
+    session-timeout: 45000
+    auto-offset-reset: earliest
+    max-poll-record: 1
+    order-topic: ORDER-CONTROL
+    userName: admin
+    passWord: Dg4cOP1c/puFhUmVrZVnSw==
+    enableUserPass: false
+    encryptKey: cApTPxTMGVVf5vrM
 eureka:
   client:
     service-url:
