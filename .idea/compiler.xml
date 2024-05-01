@@ -12,12 +12,14 @@
         <module name="discovery-server" />
         <module name="user-service" />
         <module name="common-service" />
+        <module name="order-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="api-gateway" target="17" />
       <module name="common-service" target="17" />
       <module name="discovery-server" target="17" />
+      <module name="order-service" target="17" />
       <module name="product-service" target="17" />
       <module name="user-service" target="17" />
     </bytecodeTargetLevel>
@@ -27,6 +29,7 @@
       <module name="api-gateway" options="-parameters" />
       <module name="common-service" options="-parameters" />
       <module name="discovery-server" options="-parameters" />
+      <module name="order-service" options="-parameters" />
       <module name="product-service" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>
