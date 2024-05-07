@@ -1,5 +1,6 @@
 package com.example.productservice.controller;
 
+import com.example.commonservice.model.ApiResponse;
 import com.example.productservice.model.response.UploadProductResponseBody;
 import com.example.productservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class ProductController {
     }
 
     @PostMapping ("/upload")
-    public ResponseEntity<UploadProductResponseBody> uploadProduct(@RequestParam MultipartFile file) throws IOException {
-        return new ResponseEntity<>(productService.uploadProduct(file), HttpStatus.OK);
+    public ApiResponse<UploadProductResponseBody> uploadProduct(@RequestParam MultipartFile file) throws IOException {
+        return ApiResponse.succeed(productService.uploadProduct(file));
     }
 }
