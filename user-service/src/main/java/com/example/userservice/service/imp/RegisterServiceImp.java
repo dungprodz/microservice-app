@@ -88,10 +88,12 @@ public class RegisterServiceImp implements RegisterService {
 
             responseBody.setStatus(Common.SUCCESS);
             responseBody.setMessage("SUCCESS");
+            log.info("{} register responseBody {}", getClass().getSimpleName(), responseBody);
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
         } catch (KMAException ex) {
             throw ex;
         } catch (Exception e) {
+            log.error("{} register Exception {}", getClass().getSimpleName(), e);
             throw new KMAException(ErrorCode.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR");
         }
     }
