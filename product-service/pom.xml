@@ -32,11 +32,13 @@
 			<artifactId>easyexcel</artifactId>
 			<version>3.3.2</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-collections4</artifactId>
-			<version>4.4</version>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.12.0</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.example</groupId>
 			<artifactId>common-service</artifactId>

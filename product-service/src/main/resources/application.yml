@@ -27,6 +27,10 @@ spring:
     encryptKey: cApTPxTMGVVf5vrM
   elasticsearch:
     uris: 'http://localhost:9200'
+    indicates:
+      product:
+        name: product-index
+        init-on-startup: false
 eureka:
   client:
     service-url:
