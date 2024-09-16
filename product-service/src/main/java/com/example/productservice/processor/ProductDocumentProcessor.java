@@ -17,6 +17,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
@@ -118,8 +119,7 @@ public class ProductDocumentProcessor {
         productDocumentRepository.saveAll(productEntityList.stream().map(ProductDocument::new).collect(Collectors.toList()));
     }
 
-    public Query productQuery(SearchProductRequest searchProductRequest) {
-        Pageable pageable = PageRequest.of(searchProductRequest.getPage(), searchProductRequest.getSize());
+    public Query productQuery(SearchProductRequest searchProductRequest, Pageable pageable) {
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
         if (ObjectUtils.isNotEmpty(searchProductRequest.getFromDate()) || ObjectUtils.isNotEmpty(searchProductRequest.getToDate())) {
 

@@ -83,9 +83,9 @@ public class ElasticSearchUtils {
         }
     }
 
-    public static <T> ResponsePage<List<T>> searchHitsToPage(SearchHits<T> hits, Pageable page,
-                                                             Function<SearchHit<T>, T> mapper) {
-        List<T> resultContent = hits.get().map(mapper).collect(Collectors.toList());
+    public static <T> ResponsePage<List<T>> searchHitsToPage(SearchHits<T> hits, Pageable page) {
+        List<T> resultContent = hits.getSearchHits().stream()
+                .map(SearchHit::getContent).collect(Collectors.toList());
         int totalPage = resultContent.isEmpty() ? 0 : (int) (hits.getTotalHits() / page.getPageSize() + 1);
 
         return ResponsePage.of(totalPage, hits.getTotalHits(), page.getPageNumber(), resultContent);
