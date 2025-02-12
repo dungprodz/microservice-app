@@ -1,6 +1,7 @@
 package com.example.productservice.model.document;
 
 import com.example.productservice.entity.ProductEntity;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,6 @@ import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.elasticsearch.annotations.*;
 
-import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 

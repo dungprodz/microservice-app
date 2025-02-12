@@ -1,7 +1,6 @@
 package com.example.apigateway.ulti;
 
 
-import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -26,13 +25,4 @@ public final class RestTemplateUtils {
         }
     }
 
-    public static final class HttpEntityEnclosingGetRequestBase extends HttpEntityEnclosingRequestBase {
-        public HttpEntityEnclosingGetRequestBase(final URI uri) {
-            super.setURI(uri);
-        }
-        @Override
-        public String getMethod() {
-            return HttpMethod.GET.name();
-        }
-    }
 }

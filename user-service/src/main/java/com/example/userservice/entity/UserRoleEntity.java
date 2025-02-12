@@ -1,6 +1,7 @@
 package com.example.userservice.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 import java.sql.Timestamp;
 import java.util.Objects;
 
