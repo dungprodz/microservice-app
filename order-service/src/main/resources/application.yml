@@ -30,10 +30,6 @@ spring:
     auto-offset-reset: earliest
     max-poll-record: 1
     order-topic: ORDER-CONTROL
-    userName: admin
-    passWord: Dg4cOP1c/puFhUmVrZVnSw==
-    enableUserPass: false
-    encryptKey: cApTPxTMGVVf5vrM
 server:
   port: 9001
 logging:

@@ -28,14 +28,6 @@ public class KafkaConsumerConfig {
     private String autoOffsetReset;
     @Value("${spring.kafka.max-poll-record}")
     private String maxPollRecord;
-    @Value("${spring.kafka.enableUserPass}")
-    private Boolean enableUserPass;
-    @Value("${spring.kafka.userName}")
-    private String userName;
-    @Value("${spring.kafka.passWord}")
-    private String passWord;
-    @Value("${spring.kafka.encryptKey}")
-    private String key;
 
     @Bean
     public ConsumerFactory<String, String> consumerFactory() {
@@ -49,12 +41,6 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, sessionTimeout);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset);
         props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, maxPollRecord);
-//        if (StringUtils.equalsIgnoreCase(enableUserPass, "true")) {
-//            props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");
-//            props.put(SaslConfigs.SASL_MECHANISM, "PLAIN");
-//            props.put("sasl.jaas.config", PlainLoginModule.class.getName() +
-//                    "required username=\"" + userName + "\" password=\"" + CryptoUtil.decryptAES128(passWord, key) + "\";");
-//        }
         return new DefaultKafkaConsumerFactory<>(props);
     }
 

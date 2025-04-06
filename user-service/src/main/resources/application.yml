@@ -37,3 +37,9 @@ logging:
     rolling policy:
       max-history: 7
       total-size-cap: 0
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+        # include: health,prometheus,metrics

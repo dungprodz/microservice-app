@@ -1,4 +1,4 @@
-package com.example.productservice.event.consumer;
+package com.example.productservice.event;
 
 import com.example.productservice.util.GroupKafka;
 import org.slf4j.Logger;
