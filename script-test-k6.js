@@ -3,11 +3,11 @@ import { check } from 'k6';
 
 export let options = {
     scenarios: {
-        get_users: {
+        get_product: {
             executor: 'constant-vus',
-            vus: 5, // 5 CCU cho API GET /users
-            duration: '20s',
-            exec: 'getUsers',
+            vus: 1000, // 5 CCU cho API GET /users
+            duration: '1s',
+            exec: 'getProduct',
         },
         post_login: {
             executor: 'constant-vus',
@@ -31,7 +31,7 @@ export let options = {
 };
 
 // 1. GET /users
-export function getUsers() {
+export function getProduct() {
     const res = http.get('https://api.example.com/users');
     check(res, {
         'GET /users - status 200': (r) => r.status === 200,
