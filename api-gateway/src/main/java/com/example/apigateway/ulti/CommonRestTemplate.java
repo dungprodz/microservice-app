@@ -2,6 +2,7 @@ package com.example.apigateway.ulti;
 
 import com.example.apigateway.config.RestClientConfiguration;
 import com.google.gson.Gson;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -9,7 +10,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.TrustStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -25,14 +25,11 @@ import java.util.Collections;
 import java.util.Objects;
 
 @Component
+@RequiredArgsConstructor
 public class CommonRestTemplate {
 
     private final RestClientConfiguration restClientConfiguration;
     private static final Logger LOGGER = LoggerFactory.getLogger(CommonRestTemplate.class);
-    @Autowired
-    public CommonRestTemplate(RestClientConfiguration restClientConfiguration) {
-        this.restClientConfiguration = restClientConfiguration;
-    }
 
 
     public <T> String exchangeCommon(String url, HttpMethod httpMethod, T requestBody,HttpHeaders headers) {
