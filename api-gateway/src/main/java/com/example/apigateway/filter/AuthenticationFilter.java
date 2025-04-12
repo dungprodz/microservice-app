@@ -8,6 +8,8 @@ import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFac
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 @Component
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
 
@@ -29,7 +31,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     throw new RuntimeException("missing authorization header");
                 }
 
-                String authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
+                String authHeader = Objects.requireNonNull(exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION)).get(0);
                 if (authHeader != null && authHeader.startsWith("Bearer ")) {
                     authHeader = authHeader.substring(7);
                 }
@@ -39,7 +41,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     tokenService.validateToken(request);
 
                 } catch (Exception e) {
-                    throw new RuntimeException("un authorized access to application");
+                    throw new RuntimeException("unauthorized access to application");
                 }
             }
             return chain.filter(exchange);
