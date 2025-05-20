@@ -11,8 +11,8 @@ export let options = {
         },
         post_login: {
             executor: 'constant-vus',
-            vus: 2, // 2 CCU cho API POST /login
-            duration: '10s',
+            vus: 100, // 2 CCU cho API POST /login
+            duration: '1s',
             exec: 'postLogin',
         },
         put_profile: {
@@ -45,7 +45,7 @@ export function postLogin() {
         password: 'password123',
     });
     const headers = { 'Content-Type': 'application/json' };
-    const res = http.post('https://api.example.com/login', payload, { headers });
+    const res = http.post('https://localhost:9002/api/v1/user/login', payload, { headers });
     check(res, {
         'POST /login - status 200': (r) => r.status === 200,
     });

@@ -9,9 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-import org.springframework.retry.backoff.FixedBackOffPolicy;
-import org.springframework.retry.policy.SimpleRetryPolicy;
-import org.springframework.retry.support.RetryTemplate;
+import org.springframework.kafka.listener.DefaultErrorHandler;
+import org.springframework.util.backoff.FixedBackOff;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,33 +48,26 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, sessionTimeout);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset);
         props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, maxPollRecord);
-//        if (StringUtils.equalsIgnoreCase(enableUserPass, "true")) {
-//            props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");
-//            props.put(SaslConfigs.SASL_MECHANISM, "PLAIN");
-//            props.put("sasl.jaas.config", PlainLoginModule.class.getName() +
-//                    "required username=\"" + userName + "\" password=\"" + CryptoUtil.decryptAES128(passWord, key) + "\";");
-//        }
         return new DefaultKafkaConsumerFactory<>(props);
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactoryRetry() {
-        RetryTemplate retryTemplate = new RetryTemplate();
+    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory(
+            ConsumerFactory<String, String> consumerFactory) {
+        ConcurrentKafkaListenerContainerFactory<String, String> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory);
 
-        FixedBackOffPolicy fixedBackOffPolicy = new FixedBackOffPolicy();
-        fixedBackOffPolicy.setBackOffPeriod(5000L);
-        retryTemplate.setBackOffPolicy(fixedBackOffPolicy);
-
-        SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy();
-        retryPolicy.setMaxAttempts(3);
-        retryTemplate.setRetryPolicy(retryPolicy);
-
-        ConcurrentKafkaListenerContainerFactory<String, String>
-                factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactory());
-        factory.setRetryTemplate(retryTemplate);
-        //factory.setStatefulRetry(false);
-        factory.setRecoveryCallback(context -> null);
+        // Cấu hình retry: 3 lần, delay 5 giây giữa mỗi lần
+        FixedBackOff fixedBackOff = new FixedBackOff(5000L, 3L);
+        // Handler xử lý lỗi và retry
+        DefaultErrorHandler errorHandler = new DefaultErrorHandler((record, exception) -> {
+            // Logic xử lý khi quá số lần retry (Recovery callback)
+            System.err.println("Failed record: " + record);
+            System.err.println("Exception: " + exception.getMessage());
+            // Bạn có thể log, gửi cảnh báo, hoặc lưu record vào database để xử lý sau
+        }, fixedBackOff);
+        factory.setCommonErrorHandler(errorHandler);
         return factory;
     }
 
