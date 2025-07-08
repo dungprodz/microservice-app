@@ -9,6 +9,9 @@ logging:
     rolling policy:
       max-history: 7
       total-size-cap: 0
+eureka:
+  client:
+    enabled: false
 spring:
   application:
     name: api-gateway
@@ -20,13 +23,13 @@ spring:
           predicates:
             - Path=/api/v1/user/**
           filters:
-            - AuthenticationFilter
+            - Authentication
         - id: ProductService
           uri: http://localhost:9003
           predicates:
             - Path=/api/v1/product/**
           filters:
-            - AuthenticationFilter
+            - Authentication
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
       globalcors:

@@ -11,12 +11,13 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 @Component
-public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
+public class AuthenticationGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthenticationGatewayFilterFactory.Config> {
 
     private final RouteValidator validator;
     private final TokenService tokenService;
+
     @Autowired
-    public AuthenticationFilter(RouteValidator validator, TokenService tokenService) {
+    public AuthenticationGatewayFilterFactory(RouteValidator validator, TokenService tokenService) {
         super(Config.class);
         this.validator = validator;
         this.tokenService = tokenService;
