@@ -1,6 +1,6 @@
 package com.example.commonservice.model;
 
-import com.example.commonservice.util.Common;
+import com.example.commonservice.ulti.Common;
 import org.springframework.http.HttpStatus;
 
 public class ApiResponse<T> {

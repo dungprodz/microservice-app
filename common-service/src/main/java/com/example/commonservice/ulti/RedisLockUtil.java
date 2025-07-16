@@ -1,4 +1,4 @@
-package com.example.commonservice.util;
+package com.example.commonservice.ulti;
 
 import com.example.commonservice.common.CommonException;
 import lombok.RequiredArgsConstructor;

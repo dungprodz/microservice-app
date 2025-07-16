@@ -13,6 +13,8 @@ eureka:
   client:
     enabled: false
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: api-gateway
   cloud:
@@ -23,13 +25,13 @@ spring:
           predicates:
             - Path=/api/v1/user/**
           filters:
-            - Authentication
+            - name: Authentication
         - id: ProductService
           uri: http://localhost:9003
           predicates:
             - Path=/api/v1/product/**
           filters:
-            - Authentication
+            - name: Authentication
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
       globalcors:

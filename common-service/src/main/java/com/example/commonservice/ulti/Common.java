@@ -1,4 +1,4 @@
-package com.example.commonservice.util;
+package com.example.commonservice.ulti;
 
 public interface Common {
     String SUCCESS = "SUCCESS";

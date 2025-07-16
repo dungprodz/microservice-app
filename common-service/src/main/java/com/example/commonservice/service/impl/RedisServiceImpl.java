@@ -1,7 +1,7 @@
 package com.example.commonservice.service.impl;
 
 import com.example.commonservice.service.RedisService;
-import com.example.commonservice.util.TopicModelMapping;
+import com.example.commonservice.ulti.TopicModelMapping;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Slf4j
