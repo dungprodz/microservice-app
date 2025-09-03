@@ -22,7 +22,7 @@ server:
   port: 9002
 
 jwt:
-  secret: Zing
+  secret: Yzv46ePxQfFZC3j2t7wKwMfB79JdYmRjZKHp5SLB2r6vXqWlRpKf7LhQzNcVeUoT
   token:
     expire:
       time: 300
@@ -38,6 +38,8 @@ logging:
       max-history: 7
       total-size-cap: 0
 management:
+  tracing:
+    enabled: false
   endpoints:
     web:
       exposure:

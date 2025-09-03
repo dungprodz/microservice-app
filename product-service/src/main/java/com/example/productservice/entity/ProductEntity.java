@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Setter
 public class ProductEntity {
     @Id
-    @Column(name = "PRODUCT_ID")
+    @Column(name = "ID")
     private String id;
     @Basic
     @Column(name = "PRODUCT_NAME")
@@ -34,11 +34,11 @@ public class ProductEntity {
     @Column(name = "CATEGORY_ID")
     private String categoryId;
     @Basic
-    @Column(name = "CREATED_DATE")
+    @Column(name = "CREATED_AT")
     @CreationTimestamp
     private LocalDateTime createdDate;
     @Basic
-    @Column(name = "UPDATE_DATE")
+    @Column(name = "UPDATE_AT")
     @UpdateTimestamp
     private LocalDateTime updateDate;
 }

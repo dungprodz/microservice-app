@@ -2,15 +2,22 @@ package com.example.apigateway.filter;
 
 import com.example.apigateway.model.ValidateTokenRequest;
 import com.example.apigateway.service.TokenService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
+import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
 @Component("Authentication")
-public class AuthenticationGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthenticationGatewayFilterFactory.Config> {
+@Slf4j
+public class AuthenticationGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthenticationGatewayFilterFactory.Config> implements GlobalFilter, Ordered {
 
     private final RouteValidator validator;
     private final TokenService tokenService;
@@ -47,7 +54,38 @@ public class AuthenticationGatewayFilterFactory extends AbstractGatewayFilterFac
         this.tokenService = tokenService;
     }
 
+    @Override
+    public Mono<Void> filter(ServerWebExchange exchange,
+            GatewayFilterChain chain) {
+        long start = System.currentTimeMillis();
+        var path = exchange.getRequest().getURI().getPath();
+        var headers = exchange.getRequest().getHeaders();
+        String clientMessageId = "";
+        if (headers.containsKey("clientMessageId")) {
+            clientMessageId = headers.getFirst("clientMessageId");
+        }
+        String finalClientMessageId = clientMessageId;
+
+        return chain.filter(exchange)
+                .then(Mono.fromRunnable(() -> {
+                    long end = System.currentTimeMillis();
+                    long time = end - start;
+                    String s = finalClientMessageId.isEmpty() ? String.format("API %s : %d ms", path, time)
+                            : String.format("clientMessageId %s - API %s : %d ms", finalClientMessageId, path, time);
+                    if (time >= 10000) {
+                        log.warn(s);
+                    } else {
+                        log.info(s);
+                    }
+                }));
+    }
+
     public static class Config {
         // Nếu không có properties, vẫn cần class trống
+    }
+
+    @Override
+    public int getOrder() {
+        return -1;
     }
 }

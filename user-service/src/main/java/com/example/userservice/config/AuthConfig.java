@@ -1,6 +1,5 @@
 package com.example.userservice.config;
 
-import com.example.userservice.auth.UserAuthFilter;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +12,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration
@@ -25,8 +23,8 @@ public class AuthConfig {
     @Resource
     private UserDetailsService jwtUserDetailsService;
 
-    @Resource
-    private UserAuthFilter jwtRequestFilter;
+//    @Resource
+//    private UserAuthFilter jwtRequestFilter;
 
     @Resource
     private AppConfig appConfig;
@@ -41,12 +39,14 @@ public class AuthConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable) // Tắt CSRF
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/user/*", "/listener/v1/token/validate").permitAll() // Cho phép truy cập API mà không cần auth
+                        .requestMatchers("/api/v1/user/*", "/listener/v1/token/validate")
+                        .permitAll() // Cho phép truy cập API mà không cần auth
                         .anyRequest().authenticated() // Các request khác yêu cầu authentication
                 )
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint)) // Xử lý lỗi xác thực
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless Session
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // Thêm JWT Filter trước UsernamePasswordAuthenticationFilter
+                .sessionManagement(
+                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // Stateless Session
+//                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // Thêm JWT Filter trước UsernamePasswordAuthenticationFilter
 
         return http.build();
     }

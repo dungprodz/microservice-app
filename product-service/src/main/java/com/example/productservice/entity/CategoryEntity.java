@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 public class CategoryEntity {
     @Id
-    @Column(name = "ID")
+    @Column(name = "CATEGORY_ID")
     private String id;
     @Basic
     @Column(name = "CATEGORY_NAME")
@@ -24,6 +24,6 @@ public class CategoryEntity {
     @Column(name = "DESCRIPTION", columnDefinition = "TEXT")
     private String description;
     @Basic
-    @Column(name = "CREATED_DATE")
+    @Column(name = "CREATED_AT")
     private LocalDateTime createdDate;
 }
